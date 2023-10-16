@@ -1,6 +1,7 @@
 const fs = require('fs');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+require('dotenv').config();
 const directories = ['ferro1', 'ferro2', 'raw', 'steel'];
 function addValue(main, mainValue, sub, subValue, element) {
     let valueElement = document.createElement("div");
@@ -65,6 +66,7 @@ for (const directory of directories) {
         valueElement.appendChild(valueElementChildMain);
         valueElement.appendChild(valueElementChildSub);
         currentElement.appendChild(valueElement);
+        //adds changes
         if (values[i].daily_changes > 0) {
             let value = '+' + values[i].daily_changes;
             let valuePerc = '+' + values[i].daily_changes_percent;
@@ -97,10 +99,11 @@ for (const directory of directories) {
     puppeteer.launch({headless:'new'}).then(async (browser) => {
         const page = await browser.newPage();
         await page.setViewport({width:1140,height:1140})
-        await page.goto(`file://C://Users/gript/src/ReportGenerator/templates/${directory}/temp.html`);
+        await page.goto(`file://${process.env.TEMP_PATH}/${directory}/temp.html`);
         await page.screenshot({ path: `./reports/${directory}_${currentDate}.png` });
         await browser.close();
     })
 }
+console.log("Reports generated!");
 //console.log(document.documentElement.innerHTML);
 //console.log(dom.window.document.documentElement.innerHTML);
