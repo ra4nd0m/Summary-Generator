@@ -1,0 +1,436 @@
+.element-daily-prices {
+  position: relative;
+  width: 1140px;
+  height: 1140px;
+  background-color: #ffffff;
+}
+
+.element-daily-prices .content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 25px;
+  position: absolute;
+  top: 265px;
+  left: 50px;
+}
+
+.element-daily-prices .element-frame {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.element-daily-prices .div {
+  display: flex;
+  width: 1039px;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.element-daily-prices .element-text {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 600;
+  color: #2d2729;
+  font-size: 30px;
+  letter-spacing: 0;
+  line-height: 25px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .img {
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.element-daily-prices .element-frame-2 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.element-daily-prices .element-frame-3 {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 5px 10px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #9999991a;
+  border-radius: 10px;
+}
+
+.element-daily-prices .element-group {
+  position: relative;
+  width: 302px;
+  height: 50px;
+}
+
+.element-daily-prices .text-wrapper {
+  position: absolute;
+  width: 300px;
+  top: 0;
+  left: 0;
+  font-weight: 400;
+  color: #2d2729;
+  font-size: 22px;
+  line-height: 25px;
+  font-family: "Montserrat", Helvetica;
+  letter-spacing: 0;
+}
+
+.element-daily-prices .item-values-frame {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.element-daily-prices .item-value-text-neutral-main {
+  position: relative;
+  width: 200px;
+  margin-top: -1px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 25px;
+}
+
+.element-daily-prices .item-value-text-neutral-sub {
+  position: relative;
+  width: 200px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: #2d2729;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.element-daily-prices .item-value-text-skip {
+  position: relative;
+  width: 120px;
+  margin-top: -1px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 600;
+  color: #a9a7a7;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 25px;
+}
+
+.element-daily-prices .item-value-text-negative-main {
+  position: relative;
+  width: 120px;
+  margin-top: -1px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 600;
+  color: #f16754;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 25px;
+}
+
+.element-daily-prices .item-value-text-negative-sub {
+  position: relative;
+  width: 120px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: #f16754;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.element-daily-prices .item-value-text-neutral-main {
+  position: relative;
+  width: 200px;
+  margin-top: -1px;
+  font-weight: 600;
+  color: #000000;
+  font-size: 22px;
+  line-height: 25px;
+  font-family: "Montserrat", Helvetica;
+  letter-spacing: 0;
+}
+
+.element-daily-prices .item-value-text-neutral-sub {
+  position: relative;
+  width: 200px;
+  font-weight: 400;
+  color: #2d2729;
+  font-size: 18px;
+  line-height: 20px;
+  font-family: "Montserrat", Helvetica;
+  letter-spacing: 0;
+}
+
+.element-daily-prices .item-value-text-positive-main {
+  position: relative;
+  width: 120px;
+  margin-top: -1px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 600;
+  color: #5dc24c;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 25px;
+}
+
+.element-daily-prices .item-value-text-positive-sub {
+  position: relative;
+  width: 120px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: #5dc24c;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.element-daily-prices .element-frame-5 {
+  display: flex;
+  width: 1038px;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.element-daily-prices .element-frame-6 {
+  display: flex;
+  width: 1040px;
+  height: 21px;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+}
+
+.element-daily-prices .element-text-11 {
+  position: relative;
+  width: fit-content;
+  margin-top: -3px;
+  margin-bottom: -1px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 600;
+  color: #2d2729;
+  font-size: 30px;
+  letter-spacing: 0;
+  line-height: 25px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .tags {
+  position: absolute;
+  width: 1002px;
+  height: 50px;
+  top: 200px;
+  left: 50px;
+}
+
+.element-daily-prices .element-text-12 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 500;
+  color: #969394;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .element-text-13 {
+  position: absolute;
+  top: 0;
+  left: 350px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 500;
+  color: #969394;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .element-text-14 {
+  position: absolute;
+  width: 400px;
+  top: 0;
+  left: 590px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 500;
+  color: #969394;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.element-daily-prices .element-text-15 {
+  position: absolute;
+  top: 30px;
+  left: 590px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: #969394;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .element-text-16 {
+  position: absolute;
+  top: 30px;
+  left: 750px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: #969394;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .element-text-17 {
+  position: absolute;
+  top: 30px;
+  left: 910px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: #969394;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .subtitle {
+  position: absolute;
+  height: 35px;
+  top: 144px;
+  left: 50px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: #2d2729;
+  font-size: 25px;
+  letter-spacing: 0;
+  line-height: 35px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .title {
+  position: absolute;
+  width: 720px;
+  height: 50px;
+  top: 89px;
+  left: 50px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 700;
+  color: #2d2729;
+  font-size: 41px;
+  letter-spacing: 2.05px;
+  line-height: 50px;
+}
+
+.element-daily-prices .date {
+  display: inline-flex;
+  align-items: flex-start;
+  position: absolute;
+  top: 25px;
+  left: 0;
+}
+
+.element-daily-prices .element-frame-7 {
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.element-daily-prices .element-text-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 5px 15px 5px 50px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #ea5b21;
+}
+
+.element-daily-prices .element-text-18 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 25px;
+  letter-spacing: 0;
+  line-height: 35px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .element-vector {
+  position: relative;
+  width: 30px;
+  height: 45px;
+}
+
+.element-daily-prices .element-frame-8 {
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  flex: 0 0 auto;
+  margin-left: -20px;
+}
+
+.element-daily-prices .div-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 5px 10px;
+  position: relative;
+  flex: 0 0 auto;
+  background-color: #ea5b21;
+}
+
+.element-daily-prices .element-text-19 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Montserrat", Helvetica;
+  font-weight: 400;
+  color: var(--datecolor);
+  font-size: 25px;
+  letter-spacing: 0;
+  line-height: 35px;
+  white-space: nowrap;
+}
+
+.element-daily-prices .logo {
+  position: absolute;
+  width: 304px;
+  height: 70px;
+  top: 20px;
+  left: 786px;
+}
