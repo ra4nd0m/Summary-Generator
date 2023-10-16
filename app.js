@@ -98,7 +98,7 @@ for (const directory of directories) {
         const page = await browser.newPage();
         await page.setViewport({width:1140,height:1140})
         await page.goto(`file://C://Users/gript/src/ReportGenerator/templates/${directory}/temp.html`);
-        await page.screenshot({ path: `./reports/${directory}/${currentDate}.png` });
+        await page.screenshot({ path: `./reports/${directory}_${currentDate}.png` });
         await browser.close();
     })
 }
