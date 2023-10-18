@@ -5,7 +5,6 @@ require('dotenv').config();
 const directories = ['ferro1', 'ferro2', 'raw', 'steel'];
 const getData = require('./getData');
 function addValue(main, mainValue, sub, subValue, document) {
-
     let valueElement = document.createElement("div");
     valueElement.classList.add("item-values-frame");
     let childElementMain = document.createElement("div");
@@ -18,7 +17,7 @@ function addValue(main, mainValue, sub, subValue, document) {
     valueElement.appendChild(childElementSub);
     return valueElement;
 }
-function addSkip() {
+function addSkip(document) {
     let skipELement = document.createElement("div");
     skipELement.classList.add(skip);
     skipELement.textContent = "-";
@@ -29,38 +28,14 @@ const posSub = "item-value-text-positive-sub";
 const negMain = "item-value-text-negative-main";
 const negSub = "item-value-text-negative-sub";
 const skip = "item-value-text-skip";
-function makeSummary(){
+async function makeSummary() {
+    let recivedData = await getData.makeMaterialRequests();
     for (const directory of directories) {
         let data = fs.readFileSync(`./templates/${directory}/index.html`, 'utf-8');
         var dom = new JSDOM(data);
         var document = dom.window.document;
-        let values = [{
-            "current_price": 17500,
-            "daily_changes": -300,
-            "daily_changes_percent": -5,
-            "delivery_type": "FOB",
-            "market": "Урал (Россия)",
-            "material_name": "Лом 3А",
-            "monthly_changes": -100,
-            "monthly_changes_percent": -3.85,
-            "unit": "₽/т",
-            "weekly_changes": 100,
-            "weekly_changes_percent": 2
-        }, {
-            "current_price": 17500,
-            "daily_changes": -300,
-            "daily_changes_percent": -5,
-            "delivery_type": "FOB",
-            "market": "Урал (Россия)",
-            "material_name": "Лом 3А",
-            "monthly_changes": -100,
-            "monthly_changes_percent": -3.85,
-            "unit": "₽/т",
-            "weekly_changes": 100,
-            "weekly_changes_percent": 2
-        }];
-    
-        for (let i = 0; i < 2; i++) {
+        let values = recivedData[directory];
+        for (let i = 0; i < values.length; i++) {
             //adds current price
             let valueElement = document.createElement("div");
             valueElement.classList.add("item-values-frame");
@@ -78,38 +53,38 @@ function makeSummary(){
             if (values[i].daily_changes > 0) {
                 let value = '+' + values[i].daily_changes;
                 let valuePerc = '+' + values[i].daily_changes_percent;
-                currentElement.appendChild(addValue(posMain, value, posSub, valuePerc));
+                currentElement.appendChild(addValue(posMain, value, posSub, valuePerc,document));
             }
             if (values[i].daily_changes < 0) {
-                currentElement.appendChild(addValue(negMain, values[i].daily_changes, negSub, values[i].daily_changes_percent,document));
+                currentElement.appendChild(addValue(negMain, values[i].daily_changes, negSub, values[i].daily_changes_percent, document));
             }
             if (values[i].daily_changes === 0) {
-                currentElement.appendChild(addSkip());
+                currentElement.appendChild(addSkip(document));
             }
             if (values[i].weekly_changes > 0) {
                 let value = '+' + values[i].weekly_changes;
                 let valuePerc = '+' + values[i].weekly_changes_percent;
-                currentElement.appendChild(addValue(posMain, value, posSub, valuePerc,document));
+                currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
             } if (values[i].weekly_changes < 0) {
-                currentElement.appendChild(addValue(negMain, values[i].weekly_changes, negSub, values[i].weekly_changes_percent,document));
+                currentElement.appendChild(addValue(negMain, values[i].weekly_changes, negSub, values[i].weekly_changes_percent, document));
             } if (values[i].weekly_changes === 0) {
-                currentElement.appendChild(addSkip());
+                currentElement.appendChild(addSkip(document));
             }
             if (values[i].monthly_changes > 0) {
                 let value = '+' + values[i].monthly_changes;
                 let valuePerc = '+' + values[i].monthly_changes_percent;
-                currentElement.appendChild(addValue(posMain, value, posSub, valuePerc,document));
-    
+                currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
+
             } if (values[i].monthly_changes < 0) {
-                currentElement.appendChild(addValue(negMain, values[i].monthly_changes, negSub, values[i].monthly_changes_percent,document));
+                currentElement.appendChild(addValue(negMain, values[i].monthly_changes, negSub, values[i].monthly_changes_percent, document));
             } if (values[i].monthly_changes === 0) {
-                currentElement.appendChild(addSkip());
+                currentElement.appendChild(addSkip(document));
             }
         }
         let currentDate = new Date().toLocaleDateString('ru-RU');
         document.getElementById('time').textContent = currentDate;
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
-    
+
         const puppeteer = require('puppeteer');
         puppeteer.launch({ headless: 'new' }).then(async (browser) => {
             const page = await browser.newPage();
@@ -120,7 +95,9 @@ function makeSummary(){
         })
     }
 }
-makeSummary();
-console.log("Reports generated!");
+(async () => {
+    await makeSummary();
+    console.log("Reports generated!");
+})();
 //console.log(document.documentElement.innerHTML);
 //console.log(dom.window.document.documentElement.innerHTML);
