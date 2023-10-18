@@ -92,11 +92,10 @@ async function makeSummary() {
             await page.goto(`file://${process.env.TEMP_PATH}/${directory}/temp.html`);
             await page.screenshot({ path: `./reports/${directory}_${currentDate}.png` });
             await browser.close();
+            fs.unlinkSync(`./templates/${directory}/temp.html`);
             console.log(`Report for ${directory} generated!`);
         })
     }
 }
 
 module.exports=makeSummary;
-//console.log(document.documentElement.innerHTML);
-//console.log(dom.window.document.documentElement.innerHTML);
