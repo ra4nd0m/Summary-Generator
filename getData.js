@@ -36,12 +36,13 @@ const materialIds = {
         66]
 };
 async function makeMaterialRequests() {
+    let today = new Date().toJSON().slice(0,10);
     for (const group in materialGroups) {
         const ids = materialIds[group];
         for (const id of ids) {
             try {
                 const requestBody = {
-                    "date": "2023-03-15",
+                    "date": today,
                     "material_id": id,
                     "property_id": 1
                 };
@@ -53,7 +54,6 @@ async function makeMaterialRequests() {
             }
         }
     }
-    console.log(materialGroups);
     return materialGroups;
 }
 
@@ -77,4 +77,3 @@ async function makeRequest(requestBody) {
 }
 
 module.exports={makeMaterialRequests}
-makeMaterialRequests();
