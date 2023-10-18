@@ -95,9 +95,7 @@ async function makeSummary() {
         })
     }
 }
-(async () => {
-    await makeSummary();
-    console.log("Reports generated!");
-})();
+
+module.exports={makeSummary}
 //console.log(document.documentElement.innerHTML);
 //console.log(dom.window.document.documentElement.innerHTML);
