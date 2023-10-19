@@ -1,3 +1,4 @@
+require('dotenv').config();
 const materialGroups = {
     ferro1: [],
     ferro2: [],
@@ -59,11 +60,11 @@ async function makeMaterialRequests() {
 
 // Function to make the request
 async function makeRequest(requestBody) {
-    const response = await fetch('http://base.metallplace.ru:8080/getChangeSummary', {
+    const response = await fetch(`${process.env.API_URL}/getChangeSummary`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVrX3Rlc3RpbmciLCJleHAiOjkyMjMzNzIwMzY4NTQ3NzU4MDd9.klvYnKco5Y2AdSmXDcNhLYYUBCjsMO_M2Ubmdm1Uv3M"
+            'Authorization': `${process.env.DB_TOKEN}`
         },
         body: JSON.stringify(requestBody)
     });
