@@ -30,6 +30,8 @@ const negSub = "item-value-text-negative-sub";
 const skip = "item-value-text-skip";
 async function makeSummary() {
     let recivedData = await getData.makeMaterialRequests();
+    if (!recivedData)
+        return false;
     for (const directory of directories) {
         let data = fs.readFileSync(`./templates/${directory}/index.html`, 'utf-8');
         var dom = new JSDOM(data);
@@ -53,7 +55,7 @@ async function makeSummary() {
             if (values[i].daily_changes > 0) {
                 let value = '+' + values[i].daily_changes;
                 let valuePerc = '+' + values[i].daily_changes_percent;
-                currentElement.appendChild(addValue(posMain, value, posSub, valuePerc,document));
+                currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
             }
             if (values[i].daily_changes < 0) {
                 currentElement.appendChild(addValue(negMain, values[i].daily_changes, negSub, values[i].daily_changes_percent, document));
@@ -86,7 +88,7 @@ async function makeSummary() {
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
 
         const puppeteer = require('puppeteer');
-        puppeteer.launch({ headless: 'new' }).then(async (browser) => {
+        await puppeteer.launch({ headless: 'new' }).then(async (browser) => {
             const page = await browser.newPage();
             await page.setViewport({ width: 1140, height: 1140 })
             await page.goto(`file://${process.env.TEMP_PATH}/${directory}/temp.html`);
@@ -94,8 +96,9 @@ async function makeSummary() {
             await browser.close();
             fs.unlinkSync(`./templates/${directory}/temp.html`);
             console.log(`Report for ${directory} generated!`);
-        })
-    }
+        });
+    };
+    return true;
 }
 
-module.exports=makeSummary;
+module.exports = makeSummary;

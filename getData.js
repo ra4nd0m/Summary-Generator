@@ -26,7 +26,7 @@ const materialIds = {
         21,
         83,
         23],
-    steel: [9,12,70,15,13,71,16,10,14],
+    steel: [9, 12, 70, 15, 13, 71, 16, 10, 14],
     raw: [2,
         6,
         8,
@@ -37,7 +37,8 @@ const materialIds = {
         66]
 };
 async function makeMaterialRequests() {
-    let today = new Date().toJSON().slice(0,10);
+    let isError = false;
+    let today = new Date().toJSON().slice(0, 10);
     for (const group in materialGroups) {
         const ids = materialIds[group];
         for (const id of ids) {
@@ -51,11 +52,16 @@ async function makeMaterialRequests() {
                 materialGroups[group].push(data);
             } catch (err) {
                 console.error(err);
+                isError = true;
                 continue;
             }
         }
     }
-    return materialGroups;
+    if (isError) {
+        return false;
+    } else {
+        return materialGroups;
+    }
 }
 
 // Function to make the request
@@ -77,4 +83,4 @@ async function makeRequest(requestBody) {
     return data.value;
 }
 
-module.exports={makeMaterialRequests}
+module.exports = { makeMaterialRequests }

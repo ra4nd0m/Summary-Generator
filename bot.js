@@ -22,7 +22,11 @@ function sendImages() {
 }
 
 // Schedule the task
-cron.schedule('0 9 * * 1-5',async () => {
-  await makeSummary();
-  sendImages();
+cron.schedule('0 9 * * 1-5', async () => {
+  let result = await makeSummary();
+  if (!result) {
+    console.log('Error generating reports!');
+  } else {
+    sendImages();
+  }
 });
