@@ -15,8 +15,9 @@ function sendImages() {
     if (err) {
       return console.log('Unable to scan directory: ' + err);
     }
+    const currentDate = new Date().toLocaleDateString('ru-RU');
     files.forEach(function (file) {
-      bot.sendPhoto(process.env.CHAT_ID, path.join(directoryPath, file));
+      if (file.includes(currentDate)) { bot.sendPhoto(process.env.CHAT_ID, path.join(directoryPath, file)) };
     });
   });
 }
