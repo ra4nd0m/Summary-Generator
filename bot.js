@@ -9,16 +9,30 @@ const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
 
 // Function to send images
-function sendImages() {
-  const directoryPath = `./reports`;
-  fs.readdir(directoryPath, function (err, files) {
+async function sendImages(chatId, mediaFiles) {
+  const media = mediaFiles.map((file) => ({
+    type: 'photo',
+    media: file,
+  }));
+  try {
+    const result = bot.sendMediaGroup(chatId, media);
+    console.log('Media sent!', result);
+  } catch (err) { console.error('Error sending the media!', err); }
+}
+
+async function getMedia() {
+  const currentDate = new Date().toLocaleDateString('ru-RU');
+  const directoryPath = './reports';
+  const chatId = process.env.CHAT_ID;
+  fs.readdir(directoryPath, (err, files) => {
     if (err) {
-      return console.log('Unable to scan directory: ' + err);
+      console.error('Error reading the dir: ', err);
+      return;
     }
-    const currentDate = new Date().toLocaleDateString('ru-RU');
-    files.forEach(function (file) {
-      if (file.includes(currentDate)) { bot.sendPhoto(process.env.CHAT_ID, path.join(directoryPath, file)) };
-    });
+
+    const filteredFiles = files.filter((file) => file.includes(currentDate));
+    const mediaFiles = filteredFiles.map((file) => path.join(directoryPath, file));
+    sendImages(chatId, mediaFiles);
   });
 }
 
@@ -28,6 +42,6 @@ cron.schedule('0 9 * * 1-5', async () => {
   if (!result) {
     console.log('Error generating reports!');
   } else {
-    sendImages();
+    await getMedia();
   }
 });
