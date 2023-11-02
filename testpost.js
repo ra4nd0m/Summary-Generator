@@ -20,7 +20,7 @@ async function sendImages(chatId, mediaFiles) {
 async function doStuff() {
     const currentDate = new Date().toLocaleDateString('ru-RU');
     const directoryPath = './reports';
-    const chatId = '-1002069828441';
+    const chatId = process.env.CHAT_ID;
     fs.readdir(directoryPath, (err, files) => {
         if (err) {
             console.error('Error reading the dir: ', err);
