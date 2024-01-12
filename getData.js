@@ -76,7 +76,7 @@ async function makeRequest(requestBody) {
     });
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}\nRequest body: ${JSON.stringify(requestBody)}`);
     }
 
     const data = await response.json();
