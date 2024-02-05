@@ -88,10 +88,16 @@ async function makeSummary() {
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
 
         const puppeteer = require('puppeteer');
-        await puppeteer.launch({ headless: 'new' }).then(async (browser) => {
+        await puppeteer.launch({ executablePath: `${process.cwd()}/chromium/chrome.exe`, headless: 'new' }).then(async (browser) => {
             const page = await browser.newPage();
-            await page.setViewport({ width: 1140, height: 1140 })
-            await page.goto(`file://${process.env.TEMP_PATH}/${directory}/temp.html`);
+            await page.setViewport({ width: 1140, height: 1140 });
+            const htmlPath = path.join(process.cwd(), 'templates', directory, 'temp.html');
+            const fileUrl = url.format({
+                protocol: 'file',
+                slashes: true,
+                pathname: path.resolve(htmlPath)
+            });
+            await page.goto(fileUrl);
             await page.screenshot({ path: `./reports/${directory}_${currentDate}.png` });
             await browser.close();
             fs.unlinkSync(`./templates/${directory}/temp.html`);
