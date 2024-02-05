@@ -167,7 +167,8 @@ async function makeSummary() {
         document.getElementById('time').textContent = `${formattedDate} г`;
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
         const puppeteer = require('puppeteer');
-        await puppeteer.launch({ executablePath: `${process.cwd()}/chromium-win/chrome.exe`, headless: 'new' }).then(async (browser) => {
+        const puppetPath = path.join(process.cwd(), 'chromium-win', 'chrome.exe');
+        await puppeteer.launch({ executablePath: puppetPath, headless: 'new' }).then(async (browser) => {
             const page = await browser.newPage();
             await page.setViewport({ width: 1140, height: 1140 });
             const htmlPath = path.join(process.cwd(), 'templates', directory, 'temp.html');
