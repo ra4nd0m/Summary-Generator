@@ -6,6 +6,8 @@ const { JSDOM } = jsdom;
 require('dotenv').config();
 const directories = ['ferro1', 'ferro2', 'raw', 'steel'];
 const getData = require('./getData');
+const path = require('path');
+const url = require('url');
 function addValue(main, mainValue, sub, subValue, document) {
     let valueElement = document.createElement("div");
     valueElement.classList.add("item-values-frame");
@@ -109,9 +111,8 @@ async function makeSummary() {
         let formattedDate = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(currentDate);
         document.getElementById('time').textContent = `${formattedDate} г`;
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
-
         const puppeteer = require('puppeteer');
-        await puppeteer.launch({ executablePath: `${process.cwd()}/chromium-win/chrome.exe`, headless: 'old' }).then(async (browser) => {
+        await puppeteer.launch({ executablePath: `${process.cwd()}/chromium-win/chrome.exe`, headless: 'new' }).then(async (browser) => {
             const page = await browser.newPage();
             await page.setViewport({ width: 1140, height: 1140 });
             const htmlPath = path.join(process.cwd(), 'templates', directory, 'temp.html');
