@@ -88,7 +88,7 @@ async function makeSummary() {
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
 
         const puppeteer = require('puppeteer');
-        await puppeteer.launch({ executablePath: `${process.cwd()}/chromium/chrome.exe`, headless: 'new' }).then(async (browser) => {
+        await puppeteer.launch({ executablePath: `${process.cwd()}/chromium-win/chrome.exe`, headless: 'new' }).then(async (browser) => {
             const page = await browser.newPage();
             await page.setViewport({ width: 1140, height: 1140 });
             const htmlPath = path.join(process.cwd(), 'templates', directory, 'temp.html');
