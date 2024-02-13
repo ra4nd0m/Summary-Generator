@@ -1,5 +1,6 @@
 const fs = require('fs');
 const jsdom = require("jsdom");
+const path = require('path');
 const { JSDOM } = jsdom;
 require('dotenv').config();
 const directories = ['ferro1', 'ferro2', 'raw', 'steel'];
@@ -53,6 +54,8 @@ async function makeSummary() {
             currentElement.appendChild(valueElement);
             //adds changes
             if (values[i].daily_changes > 0) {
+                //add rounding
+                //add . , replacement
                 let value = '+' + values[i].daily_changes;
                 let valuePerc = '+' + values[i].daily_changes_percent;
                 currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
@@ -83,8 +86,10 @@ async function makeSummary() {
                 currentElement.appendChild(addSkip(document));
             }
         }
-        let currentDate = new Date().toLocaleDateString('ru-RU');
-        document.getElementById('time').textContent = currentDate;
+        // add custom date
+        let currentDate = new Date();
+        let formattedDate = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(currentDate);
+        document.getElementById('time').textContent = formattedDate;
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
 
         const puppeteer = require('puppeteer');
