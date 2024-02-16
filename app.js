@@ -1,6 +1,7 @@
 const fs = require('fs');
 const jsdom = require("jsdom");
 const path = require('path');
+const url = require('url');
 const { JSDOM } = jsdom;
 require('dotenv').config();
 const directories = ['ferro1', 'ferro2', 'raw', 'steel'];
@@ -23,6 +24,21 @@ function addSkip(document) {
     skipELement.classList.add(skip);
     skipELement.textContent = "-";
     return skipELement;
+}
+function replaceDotWithComma(input) {
+    let output = input.toString().replace('.', ',');
+    return output;
+}
+
+function rounderFunction(input) {
+    let output = input;
+    if (((input < 1) && (input > 0))||((input > -1)&&(input < 0))) {
+        output = input.toFixed(2);
+    }
+    if (input >= 1 || input <= -1) {
+        output = input.toFixed(1);
+    }
+    return output;
 }
 const posMain = "item-value-text-positive-main";
 const posSub = "item-value-text-positive-sub";
@@ -55,33 +71,35 @@ async function makeSummary() {
             //adds changes
             if (values[i].daily_changes > 0) {
                 //add rounding
-                //add . , replacement
-                let value = '+' + values[i].daily_changes;
-                let valuePerc = '+' + values[i].daily_changes_percent;
+                let value = replaceDotWithComma('+' + values[i].daily_changes.toFixed(0));
+                let valuePerc = replaceDotWithComma('+' + rounderFunction(values[i].daily_changes_percent));
                 currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
             }
             if (values[i].daily_changes < 0) {
-                currentElement.appendChild(addValue(negMain, values[i].daily_changes, negSub, values[i].daily_changes_percent, document));
+                currentElement.appendChild(addValue(negMain, replaceDotWithComma(rounderFunction(values[i].daily_changes)), negSub,
+                    replaceDotWithComma(rounderFunction(values[i].daily_changes_percent)), document));
             }
             if (values[i].daily_changes === 0) {
                 currentElement.appendChild(addSkip(document));
             }
             if (values[i].weekly_changes > 0) {
-                let value = '+' + values[i].weekly_changes;
-                let valuePerc = '+' + values[i].weekly_changes_percent;
+                let value = replaceDotWithComma('+' + rounderFunction(values[i].weekly_changes));
+                let valuePerc = replaceDotWithComma('+' + rounderFunction(values[i].weekly_changes_percent));
                 currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
             } if (values[i].weekly_changes < 0) {
-                currentElement.appendChild(addValue(negMain, values[i].weekly_changes, negSub, values[i].weekly_changes_percent, document));
+                currentElement.appendChild(addValue(negMain, replaceDotWithComma(rounderFunction(values[i].weekly_changes)), negSub,
+                    replaceDotWithComma(rounderFunction(values[i].weekly_changes_percent)), document));
             } if (values[i].weekly_changes === 0) {
                 currentElement.appendChild(addSkip(document));
             }
             if (values[i].monthly_changes > 0) {
-                let value = '+' + values[i].monthly_changes;
-                let valuePerc = '+' + values[i].monthly_changes_percent;
+                let value = replaceDotWithComma('+' + rounderFunction(values[i].monthly_changes));
+                let valuePerc = replaceDotWithComma('+' + rounderFunction(values[i].monthly_changes_percent));
                 currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
 
             } if (values[i].monthly_changes < 0) {
-                currentElement.appendChild(addValue(negMain, values[i].monthly_changes, negSub, values[i].monthly_changes_percent, document));
+                currentElement.appendChild(addValue(negMain, replaceDotWithComma(rounderFunction(values[i].monthly_changes)), negSub,
+                    replaceDotWithComma(rounderFunction(values[i].monthly_changes_percent)), document));
             } if (values[i].monthly_changes === 0) {
                 currentElement.appendChild(addSkip(document));
             }
@@ -89,11 +107,11 @@ async function makeSummary() {
         // add custom date
         let currentDate = new Date();
         let formattedDate = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(currentDate);
-        document.getElementById('time').textContent = formattedDate;
+        document.getElementById('time').textContent = `${formattedDate} г`;
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
 
         const puppeteer = require('puppeteer');
-        await puppeteer.launch({ headless: 'new' }).then(async (browser) => {
+        await puppeteer.launch({ headless: 'old' }).then(async (browser) => {
             const page = await browser.newPage();
             await page.setViewport({ width: 1140, height: 1140 });
             const htmlPath = path.join(process.cwd(), 'templates', directory, 'temp.html');
@@ -103,7 +121,7 @@ async function makeSummary() {
                 pathname: path.resolve(htmlPath)
             });
             await page.goto(fileUrl);
-            await page.screenshot({ path: `./reports/${directory}_${currentDate}.png` });
+            await page.screenshot({ path: `./reports/${directory}_${formattedDate}.png` });
             await browser.close();
             fs.unlinkSync(`./templates/${directory}/temp.html`);
             console.log(`Report for ${directory} generated!`);
