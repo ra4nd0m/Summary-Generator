@@ -8,8 +8,6 @@ const directories = ['ferro1', 'ferro2', 'raw', 'steel'];
 const getData = require('./getData');
 const path = require('path');
 const url = require('url');
-const path = require('path');
-const url = require('url');
 function addValue(main, mainValue, sub, subValue, document) {
     let valueElement = document.createElement("div");
     valueElement.classList.add("item-values-frame");
