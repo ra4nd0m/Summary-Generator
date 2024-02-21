@@ -127,7 +127,7 @@
 .element-daily-prices .item-value-text-skip {
   position: relative;
   width: 120px;
-  margin-top: -1px;
+  margin-top: 10px;
   font-family: "Montserrat", Helvetica;
   font-weight: 600;
   color: #a9a7a7;

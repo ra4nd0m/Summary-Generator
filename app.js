@@ -22,7 +22,7 @@ function addValue(main, mainValue, sub, subValue, document) {
 function addSkip(document) {
     let skipELement = document.createElement("div");
     skipELement.classList.add(skip);
-    skipELement.textContent = "-";
+    skipELement.textContent = "—";
     return skipELement;
 }
 function replaceDotWithComma(input) {
