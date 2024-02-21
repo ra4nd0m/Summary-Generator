@@ -30,16 +30,46 @@ function replaceDotWithComma(input) {
     return output;
 }
 
-function rounderFunction(input) {
+function rounderFunction(input, unit) {
+    //if no changes, return
+    if (input === 0) {
+        return input;
+    }
+    //conditional rounding
     let output = input;
-    if (((input < 1) && (input > 0))||((input > -1)&&(input < 0))) {
-        output = input.toFixed(2);
+    switch (unit) {
+        case "¥/т":
+            output = output.toFixed();
+            break;
+        case "$/т":
+            output = output.toFixed()
+            break;
+        case '₽/т':
+            output = output.toFixed();
+            break;
+        case "percent":
+            output = output.toFixed(1);
+            break;
+        case "$/1% Mn смт":
+            output = output.toFixed(2);
+            break;
+        case '¢/фунт Cr':
+            output = output.toFixed(1);
+            break;
+        default:
+            break;
     }
-    if (input >= 1 || input <= -1) {
-        output = input.toFixed(1);
-    }
+    output = output.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    output = replaceDotWithComma(output);
     return output;
 }
+
+function stringRounder(input, unit) {
+    let processed = input.replace(/ /g, '');
+    let output = rounderFunction(Number(processed), unit);
+    return output;
+}
+
 const posMain = "item-value-text-positive-main";
 const posSub = "item-value-text-positive-sub";
 const negMain = "item-value-text-negative-main";
@@ -60,7 +90,8 @@ async function makeSummary() {
             valueElement.classList.add("item-values-frame");
             let valueElementChildMain = document.createElement("div");
             valueElementChildMain.classList.add("item-value-text-neutral-main");
-            valueElementChildMain.textContent = values[i].current_price;
+            let currentPrice = stringRounder(values[i].current_price, values[i].unit);
+            valueElementChildMain.textContent = currentPrice;
             let valueElementChildSub = document.createElement("div");
             valueElementChildSub.classList.add("item-value-text-neutral-sub");
             valueElementChildSub.textContent = values[i].unit;
@@ -68,39 +99,44 @@ async function makeSummary() {
             valueElement.appendChild(valueElementChildMain);
             valueElement.appendChild(valueElementChildSub);
             currentElement.appendChild(valueElement);
+            let daily = rounderFunction(values[i].daily_changes, values[i].unit);
+            let dailyPerc = rounderFunction(values[i].daily_changes_percent, "percent");
+            let weekly = rounderFunction(values[i].weekly_changes, values[i].unit);
+            let weeklyPerc = rounderFunction(values[i].weekly_changes_percent, "percent");
+            let monthly = rounderFunction(values[i].monthly_changes, values[i].unit);
+            let monthlyPerc = rounderFunction(values[i].monthly_changes_percent, "percent");
             //adds changes
-            if (values[i].daily_changes > 0) {
-                //add rounding
-                let value = replaceDotWithComma('+' + values[i].daily_changes.toFixed(0));
-                let valuePerc = replaceDotWithComma('+' + rounderFunction(values[i].daily_changes_percent));
+            if (daily > "0,0") {
+                let value = '+' + daily;
+                let valuePerc = '+' + dailyPerc;
                 currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
             }
-            if (values[i].daily_changes < 0) {
-                currentElement.appendChild(addValue(negMain, replaceDotWithComma(rounderFunction(values[i].daily_changes)), negSub,
-                    replaceDotWithComma(rounderFunction(values[i].daily_changes_percent)), document));
+            if (daily < "0,0") {
+                currentElement.appendChild(addValue(negMain, daily, negSub, dailyPerc, document));
             }
-            if (values[i].daily_changes === 0) {
+            if (daily == 0) {
                 currentElement.appendChild(addSkip(document));
             }
-            if (values[i].weekly_changes > 0) {
-                let value = replaceDotWithComma('+' + rounderFunction(values[i].weekly_changes));
-                let valuePerc = replaceDotWithComma('+' + rounderFunction(values[i].weekly_changes_percent));
+            if (weekly > "0,0") {
+                let value = '+' + weekly;
+                let valuePerc = '+' + weeklyPerc;
                 currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
-            } if (values[i].weekly_changes < 0) {
-                currentElement.appendChild(addValue(negMain, replaceDotWithComma(rounderFunction(values[i].weekly_changes)), negSub,
-                    replaceDotWithComma(rounderFunction(values[i].weekly_changes_percent)), document));
-            } if (values[i].weekly_changes === 0) {
+            }
+            if (weekly < "0,0") {
+                currentElement.appendChild(addValue(negMain, weekly, negSub, weeklyPerc, document));
+            }
+            if (weekly == 0) {
                 currentElement.appendChild(addSkip(document));
             }
-            if (values[i].monthly_changes > 0) {
-                let value = replaceDotWithComma('+' + rounderFunction(values[i].monthly_changes));
-                let valuePerc = replaceDotWithComma('+' + rounderFunction(values[i].monthly_changes_percent));
+            if (monthly > "0,0") {
+                let value = '+' + monthly;
+                let valuePerc = '+' + monthlyPerc;
                 currentElement.appendChild(addValue(posMain, value, posSub, valuePerc, document));
-
-            } if (values[i].monthly_changes < 0) {
-                currentElement.appendChild(addValue(negMain, replaceDotWithComma(rounderFunction(values[i].monthly_changes)), negSub,
-                    replaceDotWithComma(rounderFunction(values[i].monthly_changes_percent)), document));
-            } if (values[i].monthly_changes === 0) {
+            }
+            if (monthly < "0,0") {
+                currentElement.appendChild(addValue(negMain, monthly, negSub, monthlyPerc, document));
+            }
+            if (monthly == 0) {
                 currentElement.appendChild(addSkip(document));
             }
         }
