@@ -176,6 +176,7 @@ async function makeSummary() {
                 pathname: path.resolve(htmlPath)
             });
             await page.goto(fileUrl);
+            await page.waitForNetworkIdle();
             await page.screenshot({ path: `./reports/${directory}_${formattedDate}.png` });
             await browser.close();
             fs.unlinkSync(`./templates/${directory}/temp.html`);
