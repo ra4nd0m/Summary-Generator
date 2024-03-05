@@ -160,9 +160,8 @@ async function makeSummary() {
             }
         }
         // add custom date
-        let currentDate = new Date();
-        let formattedDate = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(currentDate);
-        document.getElementById('time').textContent = `${formattedDate} г`;
+        let currentDate = new Date().toLocaleDateString("ru-RU");
+        document.getElementById('time').textContent = `${currentDate} г`;
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
         const puppeteer = require('puppeteer');
         await puppeteer.launch({ executablePath: `${process.cwd()}/chromium-win/chrome.exe`, headless: 'old' }).then(async (browser) => {
@@ -176,10 +175,10 @@ async function makeSummary() {
             });
             await page.goto(fileUrl);
             await page.waitForNetworkIdle();
-            await page.screenshot({ path: `./reports/${directory}_${formattedDate}.png` });
+            await page.screenshot({ path: `./reports/${directory}_${currentDate}.png` });
             await browser.close();
             fs.unlinkSync(`./templates/${directory}/temp.html`);
-            console.log(`Report for ${directory} generated!`);
+            console.log(`Report for ${directory} generated!\nFile Name: ${directory}_${currentDate}`);
         });
     };
     return true;
