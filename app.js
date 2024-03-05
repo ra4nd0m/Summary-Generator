@@ -3,6 +3,7 @@ const jsdom = require("jsdom");
 const path = require('path');
 const url = require('url');
 const { JSDOM } = jsdom;
+const dateFormat = require('dateformat');
 require('dotenv').config();
 const directories = ['ferro1', 'ferro2', 'raw', 'steel'];
 const getData = require('./getData');
@@ -160,7 +161,7 @@ async function makeSummary() {
             }
         }
         // add custom date
-        let currentDate = new Date().toLocaleDateString("ru-RU");
+        let currentDate = dateFormat(new Date(),"dd.mm.yyyy");
         document.getElementById('time').textContent = `${currentDate} г`;
         fs.writeFileSync(`./templates/${directory}/temp.html`, document.documentElement.innerHTML);
         const puppeteer = require('puppeteer');
