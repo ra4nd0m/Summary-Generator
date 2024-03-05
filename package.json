@@ -1,8 +1,9 @@
 {
   "dependencies": {
+    "dateformat": "^4.6.3",
     "dotenv": "^16.3.1",
     "jsdom": "^22.1.0",
-    "puppeteer": "^21.3.8",
-    "node-telegram-bot-api": "^0.64.0"
+    "node-telegram-bot-api": "^0.64.0",
+    "puppeteer": "^21.3.8"
   }
 }
