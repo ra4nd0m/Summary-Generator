@@ -119,11 +119,11 @@ async function makeSummary() {
             valueElement.appendChild(valueElementChildSub);
             currentElement.appendChild(valueElement);
             let daily = rounderFunction(values[i].daily_changes, values[i].unit, values[i].material_name);
-            let dailyPerc = rounderFunction(values[i].daily_changes_percent, "percent");
-            let weekly = rounderFunction(values[i].weekly_changes, values[i].unit,);
-            let weeklyPerc = rounderFunction(values[i].weekly_changes_percent, "percent");
-            let monthly = rounderFunction(values[i].monthly_changes, values[i].unit);
-            let monthlyPerc = rounderFunction(values[i].monthly_changes_percent, "percent");
+            let dailyPerc = rounderFunction(values[i].daily_changes_percent, "percent", values[i].material_name);
+            let weekly = rounderFunction(values[i].weekly_changes, values[i].unit, values[i].material_name);
+            let weeklyPerc = rounderFunction(values[i].weekly_changes_percent, "percent", values[i].material_name);
+            let monthly = rounderFunction(values[i].monthly_changes, values[i].unit, values[i].material_name);
+            let monthlyPerc = rounderFunction(values[i].monthly_changes_percent, "percent", values[i].material_name);
             //adds changes
             if (daily > "0,0") {
                 let value = '+' + daily;
