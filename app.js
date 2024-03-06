@@ -50,7 +50,7 @@ function rounderFunction(input, unit, name) {
                     doIgnore = true;
                     break;
                 case "ЖРС (концентрат, 62% Fe)":
-                    if (input % 1 === 0.5) {
+                    if ((input % 1 === 0.5) || (input % 1 === -0.5)) {
                         output = output.toFixed(1);
                     } else {
                         output = output.toFixed(2);
@@ -120,12 +120,17 @@ async function makeSummary() {
             valueElement.appendChild(valueElementChildSub);
             currentElement.appendChild(valueElement);
             let daily = rounderFunction(values[i].daily_changes, values[i].unit, values[i].material_name);
-            let dailyPerc = rounderFunction(values[i].daily_changes_percent, "percent", values[i].material_name);
+            let dailyPerc = rounderFunction(values[i].daily_changes_percent, "percent");
             let weekly = rounderFunction(values[i].weekly_changes, values[i].unit, values[i].material_name);
-            let weeklyPerc = rounderFunction(values[i].weekly_changes_percent, "percent", values[i].material_name);
+            let weeklyPerc = rounderFunction(values[i].weekly_changes_percent, "percent");
             let monthly = rounderFunction(values[i].monthly_changes, values[i].unit, values[i].material_name);
             let monthlyPerc = rounderFunction(values[i].monthly_changes_percent, "percent", values[i].material_name);
             //adds changes
+            //additional change if daily === weekly
+            //kinda hacky
+            if (daily === weekly) {
+                daily = 0;
+            }
             if (daily > "0,0") {
                 let value = '+' + daily;
                 let valuePerc = '+' + dailyPerc;
