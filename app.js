@@ -125,6 +125,11 @@ async function makeSummary() {
             let monthly = rounderFunction(values[i].monthly_changes, values[i].unit, values[i].material_name);
             let monthlyPerc = rounderFunction(values[i].monthly_changes_percent, "percent", values[i].material_name);
             //adds changes
+            //additional change if daily === weekly
+            //kinda hacky
+            if(daily === weekly){
+                daily = 0;
+            }
             if (daily > "0,0") {
                 let value = '+' + daily;
                 let valuePerc = '+' + dailyPerc;
