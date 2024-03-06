@@ -49,7 +49,7 @@ function rounderFunction(input, unit, name) {
                     doIgnore = true;
                     break;
                 case "ЖРС (концентрат, 62% Fe)":
-                    if (input % 1 === 0.5) {
+                    if ((input % 1 === 0.5) || (input % 1 === -0.5)) {
                         output = output.toFixed(1);
                     } else {
                         output = output.toFixed(2);
@@ -127,7 +127,7 @@ async function makeSummary() {
             //adds changes
             //additional change if daily === weekly
             //kinda hacky
-            if(daily === weekly){
+            if (daily === weekly) {
                 daily = 0;
             }
             if (daily > "0,0") {
