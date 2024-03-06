@@ -30,19 +30,38 @@ function replaceDotWithComma(input) {
     return output;
 }
 
-function rounderFunction(input, unit) {
+function rounderFunction(input, unit, name) {
     //if no changes, return
     if (input === 0) {
         return input;
     }
-    //conditional rounding
     let output = input;
+    let doIgnore = false;
+    //conditional rounding
     switch (unit) {
         case "¥/т":
             output = output.toFixed();
             break;
         case "$/т":
-            output = output.toFixed()
+            switch (name) {
+                case "Cr руда (кусковая; 42% Cr)":
+                    output = output.toFixed(1);
+                    doIgnore = true;
+                    break;
+                case "ЖРС (концентрат, 62% Fe)":
+                    if ((input % 1 === 0.5) || (input % 1 === -0.5)) {
+                        output = output.toFixed(1);
+                    } else {
+                        output = output.toFixed(2);
+                    }
+                    doIgnore = true;
+                    break;
+                default:
+                    break;
+            }
+            if (!doIgnore) {
+                output = output.toFixed()
+            };
             break;
         case '₽/т':
             output = output.toFixed();
@@ -64,9 +83,9 @@ function rounderFunction(input, unit) {
     return output;
 }
 
-function stringRounder(input, unit) {
+function stringRounder(input, unit, name) {
     let processed = input.replace(/ /g, '');
-    let output = rounderFunction(Number(processed), unit);
+    let output = rounderFunction(Number(processed), unit, name);
     return output;
 }
 
@@ -90,7 +109,7 @@ async function makeSummary() {
             valueElement.classList.add("item-values-frame");
             let valueElementChildMain = document.createElement("div");
             valueElementChildMain.classList.add("item-value-text-neutral-main");
-            let currentPrice = stringRounder(values[i].current_price, values[i].unit);
+            let currentPrice = stringRounder(values[i].current_price, values[i].unit, values[i].material_name);
             valueElementChildMain.textContent = currentPrice;
             let valueElementChildSub = document.createElement("div");
             valueElementChildSub.classList.add("item-value-text-neutral-sub");
@@ -99,13 +118,18 @@ async function makeSummary() {
             valueElement.appendChild(valueElementChildMain);
             valueElement.appendChild(valueElementChildSub);
             currentElement.appendChild(valueElement);
-            let daily = rounderFunction(values[i].daily_changes, values[i].unit);
+            let daily = rounderFunction(values[i].daily_changes, values[i].unit, values[i].material_name);
             let dailyPerc = rounderFunction(values[i].daily_changes_percent, "percent");
-            let weekly = rounderFunction(values[i].weekly_changes, values[i].unit);
+            let weekly = rounderFunction(values[i].weekly_changes, values[i].unit, values[i].material_name);
             let weeklyPerc = rounderFunction(values[i].weekly_changes_percent, "percent");
-            let monthly = rounderFunction(values[i].monthly_changes, values[i].unit);
-            let monthlyPerc = rounderFunction(values[i].monthly_changes_percent, "percent");
+            let monthly = rounderFunction(values[i].monthly_changes, values[i].unit, values[i].material_name);
+            let monthlyPerc = rounderFunction(values[i].monthly_changes_percent, "percent", values[i].material_name);
             //adds changes
+            //additional change if daily === weekly
+            //kinda hacky
+            if (daily === weekly) {
+                daily = 0;
+            }
             if (daily > "0,0") {
                 let value = '+' + daily;
                 let valuePerc = '+' + dailyPerc;
@@ -157,6 +181,7 @@ async function makeSummary() {
                 pathname: path.resolve(htmlPath)
             });
             await page.goto(fileUrl);
+            await page.waitForNetworkIdle();
             await page.screenshot({ path: `./reports/${directory}_${formattedDate}.png` });
             await browser.close();
             fs.unlinkSync(`./templates/${directory}/temp.html`);

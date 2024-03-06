@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:600,500,400,700");
 .element-daily-prices {
   position: relative;
   width: 1140px;
@@ -339,10 +340,14 @@
 
 .element-daily-prices .element-vector {
   position: relative;
-  width: 30px;
-  height: 45px;
+  width: 7.7mm;
+  height: 45.2px;
 }
-
+.element-daily-prices .element-vector-2 {
+  position: relative;
+  width: 29.2px;
+  height: 43.9px;
+}
 .element-daily-prices .element-frame-5 {
   display: inline-flex;
   align-items: flex-start;
